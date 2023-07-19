@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/animations/login_page_animation.dart';
+import './home_page.dart';
+import '../utils/animations/page_routes/fade_page_route.dart';
 
 class AnimatedLoginPage extends StatefulWidget{
 
@@ -19,7 +21,7 @@ class _AnimateLoginPageState extends State<AnimatedLoginPage> with SingleTickerP
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
       reverseDuration: Duration(microseconds: 400),
     );
   }
@@ -79,7 +81,7 @@ class _LoginPage extends StatelessWidget {
               _emailTextField(),
               _passwordTextField(),
               SizedBox(height: _deviceHeight * 0.10,),
-              _loginButton(),
+              _loginButton(context),
             ],
           ),
         ),
@@ -152,7 +154,7 @@ class _LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _loginButton(){
+  Widget _loginButton(BuildContext _context){
     return MaterialButton(
       minWidth: _deviceWidth * 0.38,
       height: _deviceHeight * 0.055,
@@ -166,8 +168,14 @@ class _LoginPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(25.0),
           side: BorderSide(color: Colors.white),
       ),
-      onPressed: (){
-        
+      onPressed: () async{
+        await _controller?.reverse();
+        Navigator.pushReplacement(
+          _context,
+          FadePageRoute(
+            AnimatedHomePage(),
+          ),
+        );
       },
     );
   }
